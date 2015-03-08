@@ -9,6 +9,7 @@ Berksfile.lock
 
 cookbooks/*
 berks-cookbooks/*
+nodes/*
 
 # Bundler
 Gemfile.lock
