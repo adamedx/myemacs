@@ -4,7 +4,20 @@
 #
 # Copyright (c) 2015 Adam Edwards, All Rights Reserved.
 
-include_recipe 'git'
+
+use_git_recipe = true
+
+if ! Chef::Platform.windows?
+  git_result = `whereis git`
+  use_git_recipe = ( git_result.length < 3 || ! git_result.start_with?('/') )
+  if use_git_recipe
+    log 'Git not detected, will attempt installation';
+  end
+end
+
+if use_git_recipe
+  include_recipe 'git'
+end
 
 git_cache = "#{Chef::Config[:file_cache_path]}/myemacs/repos"
 
@@ -16,45 +29,44 @@ dot_emacs_root = "#{git_cache}/dot-emacs"
 powershell_mode_root = "#{git_cache}/powershell.el"
 markdown_mode_root = "#{git_cache}/markdown-mode"
 
-git_sources = [
-               ['https://github.com/adamedx/dot-emacs', dot_emacs_root],
-               ['https://github.com/jschaf/powershell.el', powershell_mode_root],
-               ['http://jblevins.org/git/markdown-mode.git', markdown_mode_root]
-              ]
-
+git_sources = {
+  dot_emacs_root => 'https://github.com/adamedx/dot-emacs',
+  powershell_mode_root => 'https://github.com/jschaf/powershell.el',
+  markdown_mode_root => 'http://jblevins.org/git/markdown-mode.git'
+}
 
 directory git_cache do
   recursive true
 end
 
-
-git_sources.each do | git_source |
-  git git_source[1] do
-    repository git_source[0]
-    depth git_source[0].end_with?('.git') ? nil : 1
+git_sources.each do | directory_name, repo_path |
+  git directory_name do
+    repository repo_path
+    depth repo_path.end_with?('.git') ? nil : 1
   end
 end
 
 windows_suffix = Chef::Platform.windows? ? ::File.join('AppData', 'Roaming') : ''
 emacs_config_directory = ::File.join("#{ENV['HOME']}", windows_suffix)
-
 emacs_managed_init_file = ::File.join(emacs_config_directory, '.emacs-managed')
 
 file "#{emacs_managed_init_file}" do
-  content IO.read(::File.join("#{dot_emacs_root}", '.emacs'))
+  content lazy { IO.read(::File.join("#{dot_emacs_root}", '.emacs')) }
 end
 
 emacs_custom_library_directory = ::File.join(emacs_config_directory,'.emacs-autoload')
 
-directory emacs_custom_library_directory do
-end
+directory emacs_custom_library_directory;
 
-file "#{emacs_custom_library_directory}/powershell.el" do
-  content IO.read(::File.join("#{powershell_mode_root}/powershell.el"))
-end
+library_files = {
+  'powershell.el' => powershell_mode_root,
+  'markdown-mode.el' => markdown_mode_root
+}
 
-file "#{emacs_custom_library_directory}/markdown-mode.el" do
-  content IO.read(::File.join("#{markdown_mode_root}/markdown-mode.el"))
+library_files.each do | library_name, library_source |
+  file "#{emacs_custom_library_directory}/#{library_name}" do
+    content lazy { IO.read(::File.join("#{library_source}/#{library_name}")) }
+  end
 end
 
 file "#{emacs_config_directory}/.emacs" do
