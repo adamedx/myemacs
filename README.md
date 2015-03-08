@@ -25,13 +25,14 @@ BerkShelf is to simply [install ChefDK](https://downloads.chef.io/chef-dk/).
 * Since this cookbook doesn't install Emacs, you should do this
   yourself either before or after configuring systems via this cookbook.
 
-### Local execution on your workstation
+### Local es
+execution on your workstation
 Let's say you're comfortable just running a few commands on a
 particular workstation where you need your Emacs configured. Just
 clone this repository and run the setup, as follows:
 
 ```sh
-git clone git@github.com:/adamedx/myemacs
+git clone https://github.com/adamedx/myemacs
 cd myemacs
 berks vendor cookbooks
 chef-client -z -o myemacs
