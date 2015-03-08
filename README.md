@@ -9,6 +9,7 @@ favorite workstations.
 ## Installation
 
 There are two basic ways to use this cookbook:
+
 1. Manually execute the cookbook locally on the system in which you
 want to configure emacs
 2. Upload the cookbook to a Chef Server and configure it in the
