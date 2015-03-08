@@ -32,7 +32,8 @@ clone this repository and run the setup, as follows:
 ```sh
 git clone git@github.com:/adamedx/myemacs
 cd myemacs
-./files/localsetup.sh
+berks vendor cookbooks
+chef-client -z -o myemacs
 ```
 
 Alternatively, you can simply use Chef Client local mode to execute

@@ -24,6 +24,9 @@ git_cache = "#{Chef::Config[:file_cache_path]}/myemacs/repos"
 windows_suffix = Chef::Platform.windows? ? File.join('AppData', 'Roaming') : ''
 emacs_config_directory = File.join("#{ENV['HOME']}", windows_suffix)
 
+if ::File::ALT_SEPARATOR
+  emacs_config_directory = emacs_config_directory.gsub(File::ALT_SEPARATOR, '/')
+end
 
 dot_emacs_root = "#{git_cache}/dot-emacs"
 powershell_mode_root = "#{git_cache}/powershell.el"
@@ -46,8 +49,6 @@ git_sources.each do | directory_name, repo_path |
   end
 end
 
-windows_suffix = Chef::Platform.windows? ? ::File.join('AppData', 'Roaming') : ''
-emacs_config_directory = ::File.join("#{ENV['HOME']}", windows_suffix)
 emacs_managed_init_file = ::File.join(emacs_config_directory, '.emacs-managed')
 
 file "#{emacs_managed_init_file}" do
