@@ -9,7 +9,7 @@ use_git_recipe = true
 
 if ! Chef::Platform.windows?
   git_result = `whereis git`
-  use_git_recipe = ( git_result.length < 3 || ! git_result.start_with?('/') )
+  use_git_recipe = ! git_result.start_with?('git: /')
   if use_git_recipe
     log 'Git not detected, will attempt installation';
   end
@@ -32,6 +32,8 @@ emacs_config_directory = File.join(home_dir, windows_suffix)
 if ::File::ALT_SEPARATOR
   emacs_config_directory = emacs_config_directory.gsub(File::ALT_SEPARATOR, '/')
 end
+
+directory emacs_config_directory;
 
 dot_emacs_root = "#{git_cache}/dot-emacs"
 powershell_mode_root = "#{git_cache}/powershell.el"
@@ -75,15 +77,11 @@ library_files.each do | library_name, library_source |
   end
 end
 
-config_files = [ "#{emacs_config_directory}/.emacs" ]
-
-emacs_legacy_config_directory = "#{emacs_config_directory}/.emacs.d"
-legacy_config_file = "#{home_dir}/.emacs.d/init.el"
-
-directory emacs_legacy_config_directory;
+legacy_config_directory = "#{home_dir}/.emacs.d"
+directory legacy_config_directory;
 
 [ "#{emacs_config_directory}/.emacs",
- legacy_config_file ].each do | config_file |
+  "#{legacy_config_directory}/.init.el" ].each do | config_file |
 
   file "#{config_file}" do
     content <<-EOH
