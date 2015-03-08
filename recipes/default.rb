@@ -70,11 +70,22 @@ library_files.each do | library_name, library_source |
   end
 end
 
-file "#{emacs_config_directory}/.emacs" do
-  content <<-EOH
+config_files = [ "#{emacs_config_directory}/.emacs" ]
+
+emacs_legacy_config_directory = "#{emacs_config_directory}/.emacs.d"
+legacy_config_file = "#{emacs_config_directory}/.emacs.d/init.el"
+
+directory emacs_legacy_config_directory;
+
+[ "#{emacs_config_directory}/.emacs",
+ legacy_config_file ].each do | config_file |
+
+  file "#{config_file}" do
+    content <<-EOH
 (add-to-list 'load-path "#{emacs_custom_library_directory}")
 (load-library "#{emacs_managed_init_file}")
 EOH
-end
+  end
 
+end
 
