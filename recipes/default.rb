@@ -21,8 +21,13 @@ end
 
 git_cache = "#{Chef::Config[:file_cache_path]}/myemacs/repos"
 
+home_dir = "#{ENV['HOME']}"
+if ::File::ALT_SEPARATOR
+  home_dir = home_dir.gsub(File::ALT_SEPARATOR, '/')
+end
+
 windows_suffix = Chef::Platform.windows? ? File.join('AppData', 'Roaming') : ''
-emacs_config_directory = File.join("#{ENV['HOME']}", windows_suffix)
+emacs_config_directory = File.join(home_dir, windows_suffix)
 
 if ::File::ALT_SEPARATOR
   emacs_config_directory = emacs_config_directory.gsub(File::ALT_SEPARATOR, '/')
@@ -73,7 +78,7 @@ end
 config_files = [ "#{emacs_config_directory}/.emacs" ]
 
 emacs_legacy_config_directory = "#{emacs_config_directory}/.emacs.d"
-legacy_config_file = "#{emacs_config_directory}/.emacs.d/init.el"
+legacy_config_file = "#{home_dir}/.emacs.d/init.el"
 
 directory emacs_legacy_config_directory;
 
