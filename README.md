@@ -1,7 +1,7 @@
 # myemacs cookbook
 
 The myemacs cookbook manages the configuration (i.e. the settings) but
-not the installatino of Emacs according to my preferences.
+not the installation of Emacs according to my preferences.
 
 Use this cookbook to provide a common Emacs experience across your
 favorite workstations.
@@ -20,13 +20,12 @@ runlist of the desired nodes
 You'll need to do the following for either the Chef Server or local
 workstation use cases:
 
-* Install [BerkShelf](http://berkshelf.com/) -- the easiest way to get
-BerkShelf is to simply [install ChefDK](https://downloads.chef.io/chef-dk/).
+* Install [Berkshelf](http://berkshelf.com/) -- the easiest way to get
+Berkshelf is to simply [install ChefDK](https://downloads.chef.io/chef-dk/).
 * Since this cookbook doesn't install Emacs, you should do this
   yourself either before or after configuring systems via this cookbook.
 
-### Local es
-execution on your workstation
+### Local execution on your workstation
 Let's say you're comfortable just running a few commands on a
 particular workstation where you need your Emacs configured. Just
 clone this repository and run the setup, as follows:
