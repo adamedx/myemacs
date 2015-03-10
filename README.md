@@ -50,7 +50,7 @@ for appropriate configuration of the server:
 
 ```sh
 cd $YOUR_COOKBOOK_PATH
-git clone git@github.com:/adamedx/myemacs
+git clone https://github.com/adamedx/myemacs
 cd myemacs
 berks install
 berks upload myemacs
