@@ -21,16 +21,16 @@ end
 
 git_cache = "#{Chef::Config[:file_cache_path]}/myemacs/repos"
 
-home_dir = "#{ENV['HOME']}"
+home_dir = Chef::Platform.windows? ? ENV['USERPROFILE'] : ENV['HOME']
 if ::File::ALT_SEPARATOR
-  home_dir = home_dir.gsub(File::ALT_SEPARATOR, '/')
+  home_dir = home_dir.gsub(::File::ALT_SEPARATOR, '/')
 end
 
-windows_suffix = Chef::Platform.windows? ? File.join('AppData', 'Roaming') : ''
+windows_suffix = Chef::Platform.windows? ? ::File.join('AppData', 'Roaming') : ''
 emacs_config_directory = File.join(home_dir, windows_suffix)
 
 if ::File::ALT_SEPARATOR
-  emacs_config_directory = emacs_config_directory.gsub(File::ALT_SEPARATOR, '/')
+  emacs_config_directory = emacs_config_directory.gsub(::File::ALT_SEPARATOR, '/')
 end
 
 directory emacs_config_directory;
