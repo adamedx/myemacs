@@ -33,7 +33,9 @@ if ::File::ALT_SEPARATOR
   emacs_config_directory = emacs_config_directory.gsub(::File::ALT_SEPARATOR, '/')
 end
 
-directory emacs_config_directory;
+directory emacs_config_directory do
+  only_if { Chef::Platform.windows? }
+end
 
 dot_emacs_root = "#{git_cache}/dot-emacs"
 powershell_mode_root = "#{git_cache}/powershell.el"

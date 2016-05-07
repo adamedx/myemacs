@@ -4,7 +4,7 @@ maintainer_email 'adamed@opscode.com'
 license          'Apache 2.0'
 description      'Configures Emacs'
 long_description 'Configures Emacs'
-version          '0.2.1'
+version          '0.2.2'
 
 depends          'git'
 
