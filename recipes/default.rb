@@ -40,11 +40,13 @@ end
 dot_emacs_root = "#{git_cache}/dot-emacs"
 powershell_mode_root = "#{git_cache}/powershell.el"
 markdown_mode_root = "#{git_cache}/markdown-mode"
+csharp_mode_root = "#{git_cache}/csharp-mode"
 
 git_sources = {
   dot_emacs_root => 'https://github.com/adamedx/dot-emacs',
   powershell_mode_root => 'https://github.com/jschaf/powershell.el',
-  markdown_mode_root => 'http://jblevins.org/git/markdown-mode.git'
+  markdown_mode_root => 'http://jblevins.org/git/markdown-mode.git',
+  csharp_mode_root => 'https://github.com/josteink/csharp-mode'
 }
 
 directory git_cache do
@@ -70,7 +72,8 @@ directory emacs_custom_library_directory;
 
 library_files = {
   'powershell.el' => powershell_mode_root,
-  'markdown-mode.el' => markdown_mode_root
+  'markdown-mode.el' => markdown_mode_root,
+  'csharp-mode.el' => csharp_mode_root
 }
 
 library_files.each do | library_name, library_source |
